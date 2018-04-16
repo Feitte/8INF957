@@ -26,7 +26,7 @@ public class ByteStream {
         return ret;
     }
 
-    public static int toInt(InputStream in) throws java.io.IOException {
+    public static int toInt(InputStream in) throws IOException {
         byte[] byte_array_4 = new byte[4];
 
         byte_array_4[0] = (byte) in.read();
@@ -37,12 +37,12 @@ public class ByteStream {
         return toInt(byte_array_4);
     }
 
-    public static String toString(InputStream ins) throws java.io.IOException {
+    public static String toString(InputStream ins) throws IOException {
         int len = toInt(ins);
         return toString(ins, len);
     }
 
-    private static String toString(InputStream ins, int len) throws java.io.IOException {
+    private static String toString(InputStream ins, int len) throws IOException {
         String ret = new String();
         for (int i = 0; i < len; i++) {
             ret += (char) ins.read();
@@ -50,12 +50,12 @@ public class ByteStream {
         return ret;
     }
 
-    public static void toStream(OutputStream os, int i) throws java.io.IOException {
+    public static void toStream(OutputStream os, int i) throws IOException {
         byte[] byte_array_4 = toByteArray(i);
         os.write(byte_array_4);
     }
 
-    public static void toStream(OutputStream os, File file) throws java.io.FileNotFoundException, java.io.IOException {
+    public static void toStream(OutputStream os, File file) throws FileNotFoundException, IOException {
 
         toStream(os, (int) file.length());
 
@@ -69,7 +69,7 @@ public class ByteStream {
         os.flush();
     }
 
-    public static void toStream(OutputStream os, String s) throws java.io.IOException {
+    public static void toStream(OutputStream os, String s) throws IOException {
         int len_s = s.length();
         toStream(os, len_s);
         for (int i = 0; i < len_s; i++) {
@@ -78,7 +78,7 @@ public class ByteStream {
         os.flush();
     }
 
-    private static void toFile(InputStream ins, FileOutputStream fos, int len, int buf_size) throws java.io.FileNotFoundException, java.io.IOException {
+    private static void toFile(InputStream ins, FileOutputStream fos, int len, int buf_size) throws FileNotFoundException, IOException {
 
         byte[] buffer = new byte[buf_size];
 
@@ -96,14 +96,14 @@ public class ByteStream {
         }
     }
 
-    private static void toFile(InputStream ins, File file, int len) throws java.io.FileNotFoundException, java.io.IOException {
+    private static void toFile(InputStream ins, File file, int len) throws FileNotFoundException, IOException {
 
         FileOutputStream fos = new FileOutputStream(file);
 
         toFile(ins, fos, len, 1024);
     }
 
-    public static void toFile(InputStream ins, File file) throws java.io.FileNotFoundException, java.io.IOException {
+    public static void toFile(InputStream ins, File file) throws FileNotFoundException, IOException {
 
         int len = toInt(ins);
         toFile(ins, file, len);

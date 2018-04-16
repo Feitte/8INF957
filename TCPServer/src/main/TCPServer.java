@@ -3,8 +3,10 @@ package main;
 import java.lang.reflect.Method;
 import java.net.*;
 import java.rmi.registry.LocateRegistry;
+import java.util.ArrayList;
 import java.util.Date;
 import java.io.*;
+import java.util.List;
 
 
 public class TCPServer
@@ -14,6 +16,9 @@ public class TCPServer
     {
 		Socket clientSoc;
 		ServerSocket serverSoc;
+
+		String class_name;
+		String method;
 
 	   	int portNumber;
 	   	
@@ -43,27 +48,52 @@ public class TCPServer
             CalculateImpl c = new CalculateImpl();
             java.rmi.Naming.rebind("rmi://localhost:10000/MaCalc", c);
             System.out.println("RMI configuration done");
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+            System.out.println("\n\n[ DISPLAY ]");
+            System.out.println("Enter Class and Method names:");
+            class_name = br.readLine();
+            method = br.readLine();
+
+            Integer[] tab = {0,1,2,3,4,5,6} ;
+
+
+
+
+            while(true)
+            {
+                System.out.println("Waiting for Connection ...");
+                clientSoc = serverSoc.accept();
+                TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name,method,tab);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        while(true)
-        {
-            System.out.println("Waiting for Connection ...");
-            clientSoc = serverSoc.accept();
-            TCPServerThread serverThread = new TCPServerThread(clientSoc);
-        }
+
     }
 }
 
 
 class TCPServerThread extends Thread
 {
+    static int numClient;
+    int idClient;
+
+    Integer[] tab;
+
     Socket ClientSoc;
     DataInputStream din;
     DataOutputStream dout;
+    BufferedReader br;
 
-    TCPServerThread(Socket soc)
+    String class_name;
+    String method;
+
+    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab)
     {
         try
         {
@@ -71,8 +101,15 @@ class TCPServerThread extends Thread
             
             din = new DataInputStream(ClientSoc.getInputStream());
             dout = new DataOutputStream(ClientSoc.getOutputStream());
-            
+            br = new BufferedReader((new InputStreamReader(System.in)));
+            this.class_name = class_name;
+            this.method=method;
+            this.tab = tab;
+
+
             System.out.println("\nTCP Client Connected ...");
+            this.idClient = numClient;
+            numClient++;
             start();
         }
         catch(Exception ex)
@@ -85,6 +122,8 @@ class TCPServerThread extends Thread
     @Override
     public void run()
     {
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
     	Class Calc;
         Object calc_class;
         Object output = null;
@@ -94,6 +133,63 @@ class TCPServerThread extends Thread
         String b;
         String method;
         String class_name;
+        String msgFromSlave ;
+
+
+        System.out.println(numClient);
+
+
+
+        //début Copier Coller
+
+        File calc = new File("src\\main\\Calc.java");
+
+        try {
+
+
+            dout.writeUTF(this.class_name);
+            dout.writeUTF(this.method);
+
+            ByteStream.toStream(dout, calc);
+
+            // Wait for the response from server...
+            //msgFromSlave = din.readUTF();
+            //System.out.print("[Server] Result: " + msgFromSlave + "\n");
+
+            if (br.readLine().equals("go")) {
+                list = myMethod.arrayDivider(tab, numClient)[idClient];
+                for(Integer i : list){
+                    System.out.println(i);
+                }
+                dout.writeUTF(list.toString());
+                dout.writeUTF("go");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Exception Occurred:");
+            numClient--;
+            System.out.println(this.idClient);
+            //e.printStackTrace();
+        }
+
+
+
+
+
+
+
+
+        System.out.println("[Client] SourceColl Mod");
+
+        //Send main.Calc to server...
+
+
+        //fin copier coller
+
+
+
+
+/*
 
         while(true)
         {
@@ -113,7 +209,7 @@ class TCPServerThread extends Thread
                         System.out.println("----> SourceColl Mod");
 
                         // Create a new source file if it doesn't exist
-                        File calc = new File("src\\main\\" + class_name + ".java");
+                        //File calc = new File("src\\main\\" + class_name + ".java");
                         try {
                             boolean isNewFile = calc.createNewFile();
                             if (isNewFile) {
@@ -126,7 +222,7 @@ class TCPServerThread extends Thread
 
                             // Compilation Step
                             System.out.println("**********");
-                            runProcess("javac -cp src src/main/" + class_name + ".java -d out/production/TCPServer");
+                            runProcess("javac -cp src src/main/" + class_name + ".java -d out/production/Master");
                             System.out.println("**********");
 
                             // Reflexion Step
@@ -144,14 +240,16 @@ class TCPServerThread extends Thread
 
                         //Out: result + current time of server
                         System.out.println("Result is : " + output);
-                        dout.writeUTF(output.toString() + "  [" + (new Date().toString()) + "]");
+
+                        dout.writeUTF(list.toString());
+                        //dout.writeUTF(output.toString() + "  [" + (new Date().toString()) + "]");
 
                         break;
                     case 2:
                         System.out.println("----> ByteColl Mod");
 
                         // Create a new bytecode file if it doesn't exist
-                        File calc_comp = new File("out\\production\\TCPServer\\main\\" + class_name + ".class");
+                        File calc_comp = new File("out\\production\\Master\\main\\" + class_name + ".class");
                         try {
                             boolean isNewFile = calc_comp.createNewFile();
                             if (isNewFile) {
@@ -186,12 +284,9 @@ class TCPServerThread extends Thread
                         break;
                 }
             }
-            catch(Exception ex)
-            {
-                System.out.println(ex.getMessage());
-                break;
-            }
+
         }
+        */
     }
 
 
