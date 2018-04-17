@@ -153,10 +153,12 @@ class TCPServerThread extends Thread
             ByteStream.toStream(dout, calc);
 
             // Wait for the response from server...
-            //msgFromSlave = din.readUTF();
-            //System.out.print("[Server] Result: " + msgFromSlave + "\n");
+            msgFromSlave = din.readUTF();
+            System.out.print("[Server] Result: " + msgFromSlave + "\n");
 
             if (br.readLine().equals("go")) {
+                dout.writeUTF("go");
+
                 list = myMethod.arrayDivider(tab, numClient)[idClient];
                 for(Integer i : list){
                     System.out.println(i);
