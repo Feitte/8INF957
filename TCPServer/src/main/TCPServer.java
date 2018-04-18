@@ -37,15 +37,38 @@ public class TCPServer {
         method = br.readLine();
 
         Integer[] tab = {1, 0, 2, 3, 1, 4, 6, 5, 4, 2, 3, 4, 5, 6};
-
+        GoThread goThread = new GoThread(br);
         while (true) {
             System.out.println("Waiting for Connection ...");
             clientSoc = serverSoc.accept();
-            TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab);
+            TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab, goThread);
         }
     }
 }
+class GoThread extends  Thread{
+    BufferedReader br;
+    boolean continu = true;
 
+    GoThread(BufferedReader br){
+        this.br = br;
+        start();
+    }
+
+    @Override
+    public void run() {
+        while (continu) {
+            System.out.println("gothread");
+            try{
+                if (br.readLine().equals("go")){
+                    continu = false;
+                }
+            }catch (IOException e){
+                System.out.println(e);
+            }
+
+        }
+    }
+}
 
 class TCPServerThread extends Thread {
     static int numClient;
@@ -61,8 +84,10 @@ class TCPServerThread extends Thread {
     String class_name;
     String method;
 
+    Thread th;
 
-    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab) {
+
+    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab, Thread th) {
         try {
             ClientSoc = soc;
 
@@ -73,6 +98,7 @@ class TCPServerThread extends Thread {
             this.class_name = class_name;
             this.method = method;
             this.tab = tab;
+            this.th = th;
 
 
             System.out.println("\nTCP Client Connected ...");
@@ -101,7 +127,14 @@ class TCPServerThread extends Thread {
 
             ByteStream.toStream(dout, calc);
 
-            if (br.readLine().equals("go")) {
+            if (th.isAlive()) {
+                System.out.println("alive");
+                try {
+                    th.join();
+                }catch (InterruptedException e){
+                    System.out.println(e);
+                }
+
                 dout.writeUTF("go");
 
                 list = myMethod.arrayDivider(tab, numClient)[idClient];
