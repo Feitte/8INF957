@@ -21,7 +21,7 @@ public class TCPServer {
 
         int portNumber;
         continu = true;
-        
+
         if (args.length == 2) {
             portNumber = Integer.parseInt(args[1]);
             serverSoc = new ServerSocket(portNumber,100, InetAddress.getByName(args[0]));
