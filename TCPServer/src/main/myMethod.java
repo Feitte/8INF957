@@ -27,7 +27,7 @@ public class myMethod {
             min = Integer.min(val, min);
         }
 
-        int truc = (max - min) / num;
+        float truc = (max - min) / num;
 
         for (int val : tab) {
             if (val == min) {
@@ -37,7 +37,8 @@ public class myMethod {
                     dividedArray[num - 1].add(val);
                 } else {
                     System.out.println((int)(val - min) / truc);
-                    dividedArray[(int)(val - min) / truc].add(val);
+                    float indice = (val - min) / truc;
+                    dividedArray[(int)indice].add(val);
                 }
             }
         }

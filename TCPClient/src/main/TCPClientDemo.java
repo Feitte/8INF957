@@ -4,6 +4,7 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TCPClientDemo {
 
@@ -95,58 +96,25 @@ class TCPClient {
                     Calc = Class.forName("main." + class_name);
                     calc_class = Calc.newInstance();
 
-                    serverMethod = calc_class.getClass().getMethod(method, String.class, String.class);
-                    //output = add.invoke(calc_class, a, b);
+                    serverMethod = calc_class.getClass().getMethod(method,List.class);
+                    //go
+                    System.out.println(din.readUTF());
+                    //liste
+                    list = din.readUTF();
+                    System.out.println(list);
 
-                } catch (IOException e) {
-                    System.out.println("Exception Occurred:");
-                    e.printStackTrace();
-                }
+                    ArrayList<Integer> liste = new ArrayList<>();
+                    String[] arrayString = list.substring(1, list.length() - 1).split("\\s*,\\s*");
+                    for (String str : arrayString){
+                        try{
+                            liste.add(Integer.parseInt(str));
+                        }catch (Exception e){
+                            System.out.println("Not integer");
+                        }
 
-                list = din.readUTF();
-                System.out.println(list);
-
-                ArrayList<Integer> liste = new ArrayList<>();
-                String[] arrayString = list.substring(1, list.length() - 1).split("\\s*,\\s*");
-                System.out.println(arrayString[0]);
-
-                // liste = Arrays.asList(list,',');
-
-                // Read parameters from client
-              /*  msg = din.readUTF();
-                class_name = din.readUTF();
-                method = din.readUTF();
-                a = din.readUTF();
-                b = din.readUTF();
-                System.out.println("Client wants to " + method + "(" + a + "," + b + ")");
-
-
-                // début copier coller
-                System.out.println("----> SourceColl Mod");
-
-                // Create a new source file if it doesn't exist
-                File calc = new File("src\\main\\" + class_name + ".java");
-                try {
-                    boolean isNewFile = calc.createNewFile();
-                    if (isNewFile) {
-                        System.out.println("A source file was created");
-                    } else {
-                        System.out.println("Source file already exist, no need to create a new one");
                     }
-                    // Copy data received from client to this new file
-                    ByteStream.toFile(din, calc);
+                    output = serverMethod.invoke(calc_class,liste);
 
-                    // Compilation Step
-                    System.out.println("**********");
-                    runProcess("javac -cp src src/main/" + class_name + ".java -d out/production/Master");
-                    System.out.println("**********");
-
-                    // Reflexion Step
-                    Calc = Class.forName("main." + class_name);
-                    calc_class = Calc.newInstance();
-
-                    add = calc_class.getClass().getMethod(method, String.class, String.class);
-                    output = add.invoke(calc_class, a, b);
 
 
                 } catch (IOException e) {
@@ -155,84 +123,15 @@ class TCPClient {
                 }
 
                 //Out: result + current time of server
-                System.out.println("Result is : " + output);
+                System.out.println("Result is : " + (output).toString());
 
-                //dout.writeUTF(output.toString() + "  [" + (new Date().toString()) + "]");
+                dout.writeUTF(output.toString());
 
-
-                // fin copier coller
-*/
             } catch (Exception e) {
                 System.out.println(e);
             }
         }
 
     }
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 }
 
-/*
-                System.out.println("\n\n[ DISPLAY ]");
-                System.out.println("Enter Class and Method names (press 'q' to exit):");
-                class_name = br.readLine();
-                if (class_name.equals("q")) {
-                    break;
-                }
-                method = br.readLine();
-
-                System.out.println("Enter two arguments for this :");
-                a = br.readLine();
-                b = br.readLine();
-
-                System.out.println("1. Send via SourceColl");
-                System.out.println("2. Send via ByteColl");
-                System.out.println("3. Send via RMI");
-                System.out.println("4. Exit");
-                System.out.print("\nEnter Choice :");
-
-                //Send parameters to server...
-                choice = Integer.parseInt(br.readLine());
-                dout.writeUTF(choice.toString());
-                dout.writeUTF(class_name);
-                dout.writeUTF(method);
-                dout.writeUTF(a);
-                dout.writeUTF(b);
-
-                switch (choice) {
-                    case 1:
-                        System.out.println("[Client] SourceColl Mod");
-
-                        //Send main.Calc to server...
-                        ByteStream.toStream(dout, calc);
-
-                        // Wait for the response from server...
-                        msgFromServer = din.readUTF();
-                        System.out.print("[Server] Result: " + msgFromServer + "\n");
-                        break;
-                    case 2:
-                        System.out.println("[Client] ByteColl Mod");
-
-                        //Send the message to server...
-                        //ByteStream.toStream(dout, calc_class);
-
-                        // Wait for the response from server...
-                        msgFromServer = din.readUTF();
-                        System.out.print("[Server] Result: " + msgFromServer + "\n");
-                        break;
-                    case 3:
-                        System.out.println("[Client] RMI Mod");
-
-                        // RMI Step : invoke method 'add' from server
-                        Calculate c = (Calculate) java.rmi.Naming.lookup("rmi://localhost:10000/MaCalc");
-                        Integer out = c.add(a, b);
-
-                        // Wait for the response from server...
-                        msgFromServer = din.readUTF();
-                        System.out.print("[Server] Result: " + out + "  " + msgFromServer + "\n");
-                        break;
-                    case 4:
-                        dout.close();
-                        System.exit(1);
-                    default:
-                        break;
-                }*/

@@ -56,7 +56,7 @@ public class TCPServer
             class_name = br.readLine();
             method = br.readLine();
 
-            Integer[] tab = {0,1,2,3,4,5,6} ;
+            Integer[] tab = {1,0,2,3,1,4,6,5,4,2,3,4,5,6} ;
 
 
 
@@ -153,8 +153,8 @@ class TCPServerThread extends Thread
             ByteStream.toStream(dout, calc);
 
             // Wait for the response from server...
-            msgFromSlave = din.readUTF();
-            System.out.print("[Server] Result: " + msgFromSlave + "\n");
+            //msgFromSlave = din.readUTF();
+            //System.out.print("[Server] Result: " + msgFromSlave + "\n");
 
             if (br.readLine().equals("go")) {
                 dout.writeUTF("go");
@@ -165,6 +165,8 @@ class TCPServerThread extends Thread
                 }
                 dout.writeUTF(list.toString());
                 dout.writeUTF("go");
+                System.out.println(din.readUTF());
+
             }
 
         } catch (IOException e) {
