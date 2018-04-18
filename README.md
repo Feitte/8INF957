@@ -2,6 +2,8 @@
 Cours de Programmation Objet Avancé
 ## Projet de Fin de Session : 
 
+Thomas Stievenard STIT31079507
+
 # Réalisation d'un logiciel de partage de ressource
 
 L'objectif de ce projet est la réalisation d'un algorithme de répartition de ressource entre plusieurs machines principalement sous Windows, avec un programme répartie qui serait un tri de tableau d'entier.
