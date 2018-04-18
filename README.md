@@ -2,7 +2,10 @@
 Cours de Programmation Objet Avancé
 ## Projet de Fin de Session : 
 
-Thomas Stievenard STIT31079507
+    David KLUG (KLUD13059501)
+    Sylvain PRYFER (PRYS14129507)
+    Thomas STIEVENARD (STIT31079507)
+
 
 # Réalisation d'un logiciel de partage de ressource
 
