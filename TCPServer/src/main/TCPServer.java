@@ -1,79 +1,53 @@
 package main;
 
-import java.lang.reflect.Method;
-import java.net.*;
-import java.rmi.registry.LocateRegistry;
-import java.util.ArrayList;
-import java.util.Date;
 import java.io.*;
-import java.util.List;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 
 
-public class TCPServer
-{
+public class TCPServer {
 
-	public static void main(String args[]) throws Exception
-    {
-		Socket clientSoc;
-		ServerSocket serverSoc;
+    public static void main(String args[]) throws Exception {
+        Socket clientSoc;
+        ServerSocket serverSoc;
 
-		String class_name;
-		String method;
+        String class_name;
+        String method;
 
-	   	int portNumber;
-	   	
-		if (args.length == 1)
-		{	
-			portNumber = Integer.parseInt(args[0]);
-			serverSoc = new ServerSocket(portNumber);
-							
-		}
-		else
-		{
-			System.out.print("Invalid parameters ");
-			return;
-		} 
-		
-		System.out.println("\nTCP Server Started on Port Number: " + portNumber);
+        int portNumber;
 
-		// RMI Configuration
-        try {
-            // Set codebase
-            File f1= new File ("bin");
-            String codeBase=f1.getAbsoluteFile().toURI().toURL().toString();
-            System.setProperty("java.rmi.server.codebase", codeBase);
+        if (args.length == 1) {
+            portNumber = Integer.parseInt(args[0]);
+            serverSoc = new ServerSocket(portNumber);
 
-            // Set a port and bind
-            LocateRegistry.createRegistry(10000);
-            //CalculateImpl c = new CalculateImpl();
-            //java.rmi.Naming.rebind("rmi://localhost:10000/MaCalc", c);
-            System.out.println("RMI configuration done");
+        } else {
+            System.out.print("Invalid parameters ");
+            return;
+        }
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-            System.out.println("\n\n[ DISPLAY ]");
-            System.out.println("Enter Class and Method names:");
-            class_name = br.readLine();
-            method = br.readLine();
+        System.out.println("\nTCP Server Started on Port Number: " + portNumber);
 
-            Integer[] tab = {1,0,2,3,1,4,6,5,4,2,3,4,5,6} ;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-            while(true)
-            {
-                System.out.println("Waiting for Connection ...");
-                clientSoc = serverSoc.accept();
-                TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name,method,tab);
-            }
+        System.out.println("\n\n[ DISPLAY ]");
+        System.out.println("Enter Class and Method names:");
+        class_name = br.readLine();
+        method = br.readLine();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        Integer[] tab = {1, 0, 2, 3, 1, 4, 6, 5, 4, 2, 3, 4, 5, 6};
+
+        while (true) {
+            System.out.println("Waiting for Connection ...");
+            clientSoc = serverSoc.accept();
+            TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab);
         }
     }
 }
 
 
-class TCPServerThread extends Thread
-{
+class TCPServerThread extends Thread {
     static int numClient;
     int idClient;
 
@@ -87,18 +61,17 @@ class TCPServerThread extends Thread
     String class_name;
     String method;
 
-    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab)
-    {
-        try
-        {
+
+    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab) {
+        try {
             ClientSoc = soc;
-            
+
             din = new DataInputStream(ClientSoc.getInputStream());
             dout = new DataOutputStream(ClientSoc.getOutputStream());
             br = new BufferedReader((new InputStreamReader(System.in)));
 
             this.class_name = class_name;
-            this.method=method;
+            this.method = method;
             this.tab = tab;
 
 
@@ -106,17 +79,14 @@ class TCPServerThread extends Thread
             this.idClient = numClient;
             numClient++;
             start();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-        
-        
+
+
     @Override
-    public void run()
-    {
+    public void run() {
 
         ArrayList<Integer> list = new ArrayList<Integer>();
 
@@ -135,9 +105,6 @@ class TCPServerThread extends Thread
                 dout.writeUTF("go");
 
                 list = myMethod.arrayDivider(tab, numClient)[idClient];
-                for(Integer i : list){
-                    System.out.println(i);
-                }
                 dout.writeUTF(list.toString());
                 dout.writeUTF("go");
                 System.out.println(din.readUTF());

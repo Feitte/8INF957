@@ -27,8 +27,8 @@ class TCPClient {
     DataInputStream din;
     DataOutputStream dout;
     BufferedReader br;
-    File calc = new File("src\\main\\Calc.java");
-    File calc_class = new File("out\\production\\Client\\main\\Calc.class");
+    //File calc = new File("src\\main\\Calc.java");
+    //File calc_class = new File("out\\production\\Client\\main\\Calc.class");
 
     TCPClient(String hostName, int port) {
         try {
