@@ -48,11 +48,23 @@ class TCPClient {
         System.out.println("Compilation exitValue() : " + pro.exitValue());
     }
 
+    private void StringToListInteger(String str, List<Integer> list ){
+        String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
+        for (String string : arrayString){
+            try{
+                list.add(Integer.parseInt(string));
+            }catch (Exception e){
+                System.out.println("Not integer");
+            }
+
+        }
+    }
+
     public void display() throws Exception {
 
         String method;
         String class_name;
-        String list;
+        String string;
 
         Class Calc;
         Method serverMethod;
@@ -96,20 +108,13 @@ class TCPClient {
                     //go
                     System.out.println(din.readUTF());
                     //liste
-                    list = din.readUTF();
-                    System.out.println(list);
+                    string = din.readUTF();
+                    System.out.println(string);
 
-                    ArrayList<Integer> liste = new ArrayList<>();
-                    String[] arrayString = list.substring(1, list.length() - 1).split("\\s*,\\s*");
-                    for (String str : arrayString){
-                        try{
-                            liste.add(Integer.parseInt(str));
-                        }catch (Exception e){
-                            System.out.println("Not integer");
-                        }
+                    ArrayList<Integer> list = new ArrayList<>();
+                    StringToListInteger(string,list);
 
-                    }
-                    output = serverMethod.invoke(calc_class,liste);
+                    output = serverMethod.invoke(calc_class,list);
 
 
 

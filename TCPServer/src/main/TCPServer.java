@@ -12,13 +12,14 @@ public class TCPServer {
     static boolean continu;
 
     public static void main(String args[]) throws Exception {
-        ServerSocket serverSoc;
+        ServerSocket serverSoc = null;
 
         String class_name;
         String method;
 
         int portNumber;
         continu = true;
+
         if (args.length == 1) {
             portNumber = Integer.parseInt(args[0]);
             serverSoc = new ServerSocket(portNumber);
@@ -28,56 +29,75 @@ public class TCPServer {
             return;
         }
 
-        System.out.println("\nTCP Server Started on Port Number: " + portNumber);
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        if (serverSoc != null) {
+            System.out.println("\nTCP Server Started on Port Number: " + portNumber);
 
-        System.out.println("\n\n[ DISPLAY ]");
-        System.out.println("Enter Class and Method names:");
-        class_name = br.readLine();
-        method = br.readLine();
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+            System.out.println("\n\n[ DISPLAY ]");
+            System.out.println("Enter Class and Method names:");
+            class_name = br.readLine();
+            method = br.readLine();
 
-        Integer[] tab = {1, 0, 2, 3, 1, 4, 6, 5, 4, 2, 3, 4, 5, 6};
+            Integer[] tab = {1, 0, 2, 3, 1, 4, 6, 5, 4, 2, 3, 4, 5, 6};
+            int[] cpt = {0};
+            List<TCPServerThread> tcpServerThreadList = new ArrayList<TCPServerThread>();
+            ArrayList<ArrayList<Integer>> integerList = new ArrayList<ArrayList<Integer>>();
+            List<Socket> socketList = new ArrayList<>();
 
-        List<TCPServerThread> tcpServerThreadList = new ArrayList<TCPServerThread>();
-        ArrayList<ArrayList<Integer>> integerList = new ArrayList<ArrayList<Integer>>();
-        List<Socket> socketList = new ArrayList<>();
+            GoThread goThread = new GoThread(br);
+            SocketThread socketThread = new SocketThread(socketList, serverSoc);
 
-        GoThread goThread = new GoThread(br);
-        SocketThread socketThread = new SocketThread(socketList, serverSoc);
-        while (continu) {
+            while (continu) {
 
-            if (!socketList.isEmpty()) {
-                ArrayList<Integer> tmp = new ArrayList<>();
-                integerList.add(tmp);
-                Socket clientSoc = socketList.get(0);
-                TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab, goThread, tmp);
-                socketList.remove(clientSoc);
-                tcpServerThreadList.add(serverThread);
+                if (!socketList.isEmpty()) {
 
+                    ArrayList<Integer> tmp = new ArrayList<>();
+                    integerList.add(tmp);
+
+                    Socket clientSoc = socketList.get(0);
+                    TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab, goThread, tmp, cpt);
+                    socketList.remove(clientSoc);
+
+                    tcpServerThreadList.add(serverThread);
+
+                }
+                if (!goThread.isAlive()) {
+                    continu = false;
+                    socketThread.interrupt();
+                }
             }
-            if (!goThread.isAlive()) {
-                continu = false;
-                socketThread.interrupt();
-            }
+
+            WaitForServerThread(tcpServerThreadList);
+
+            System.out.println(FinalList(integerList));
+
         }
-        for (TCPServerThread serverThread : tcpServerThreadList) {
+    }
+
+    //Attend que tu les threads de serveur soient terminées
+    private static void WaitForServerThread(List<TCPServerThread> list) {
+        for (TCPServerThread serverThread : list) {
             try {
                 serverThread.join();
             } catch (InterruptedException e) {
                 System.out.println(e);
             }
         }
+    }
+
+    //Passe d'une liste de liste d'entier à une liste d'entier
+    private static List<Integer> FinalList(ArrayList<ArrayList<Integer>> list) {
         ArrayList<Integer> finalList = new ArrayList<>();
-        for(List<Integer> l : integerList){
+        for (List<Integer> l : list) {
             finalList.addAll(l);
         }
-        System.out.println(finalList);
-
+        return finalList;
     }
 }
 
+//Thread permettant de detecter de nouvelle connection
 class SocketThread extends Thread {
     ServerSocket serverSocket;
     List<Socket> socketList;
@@ -105,6 +125,7 @@ class SocketThread extends Thread {
     }
 }
 
+//Thread servant de repère pour le "go" de chaque thread de serveur
 class GoThread extends Thread {
     BufferedReader br;
     boolean continu = true;
@@ -129,26 +150,27 @@ class GoThread extends Thread {
     }
 }
 
+//Thread de serveur permettant l'envoi et la récéption de donnée avec le client
 class TCPServerThread extends Thread {
-    static int numClient;
-    int idClient;
+    private static int numClient;
+    private int idClient;
 
-    Integer[] tab;
-    ArrayList<Integer> list;
-    ArrayList<Integer> integerArrayList;
+    private Integer[] tab;
+    private ArrayList<Integer> list;
+    private ArrayList<Integer> integerArrayList;
 
-    Socket ClientSoc;
-    DataInputStream din;
-    DataOutputStream dout;
-    BufferedReader br;
+    private Socket ClientSoc;
+    private DataInputStream din;
+    private DataOutputStream dout;
+    private BufferedReader br;
 
-    String class_name;
-    String method;
+    private String class_name;
+    private String method;
 
-    Thread th;
+    private Thread th;
 
 
-    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab, Thread th, ArrayList<Integer> integerArrayList) {
+    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab, Thread th, ArrayList<Integer> integerArrayList, int[] cpt) {
         try {
             ClientSoc = soc;
 
@@ -172,6 +194,17 @@ class TCPServerThread extends Thread {
         }
     }
 
+    public void stringToListInteger(String str, ArrayList<Integer> integerArrayList) {
+        String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
+        for (String string : arrayString) {
+            try {
+                integerArrayList.add(Integer.parseInt(string));
+            } catch (Exception e) {
+                System.out.println("Not integer");
+            }
+
+        }
+    }
 
     @Override
     public void run() {
@@ -187,7 +220,7 @@ class TCPServerThread extends Thread {
             ByteStream.toStream(dout, calc);
 
             if (th.isAlive()) {
-                System.out.println("alive");
+
                 try {
                     th.join();
                 } catch (InterruptedException e) {
@@ -195,27 +228,22 @@ class TCPServerThread extends Thread {
                 }
 
                 dout.writeUTF("go");
-
                 list = myMethod.arrayDivider(tab, numClient)[idClient];
                 dout.writeUTF(list.toString());
-                dout.writeUTF("go");
+
 
                 String str = din.readUTF();
-                String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
-                for (String string : arrayString) {
-                    try {
-                        integerArrayList.add(Integer.parseInt(string));
-                    } catch (Exception e) {
-                        System.out.println("Not integer");
-                    }
-
-                }
+                stringToListInteger(str, integerArrayList);
             }
 
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
-            numClient--;
+            //numClient--;
             System.out.println(this.idClient);
+            list = myMethod.arrayDivider(tab, numClient)[idClient];
+            Calc c = new Calc();
+            integerArrayList.addAll(c.sort(list));
+
             //e.printStackTrace();
         }
 
