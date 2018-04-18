@@ -4,10 +4,12 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TCPServer {
 
+    static boolean continu;
     public static void main(String args[]) throws Exception {
         Socket clientSoc;
         ServerSocket serverSoc;
@@ -16,7 +18,7 @@ public class TCPServer {
         String method;
 
         int portNumber;
-
+        continu = true;
         if (args.length == 1) {
             portNumber = Integer.parseInt(args[0]);
             serverSoc = new ServerSocket(portNumber);
@@ -25,7 +27,6 @@ public class TCPServer {
             System.out.print("Invalid parameters ");
             return;
         }
-
 
         System.out.println("\nTCP Server Started on Port Number: " + portNumber);
 
@@ -36,15 +37,29 @@ public class TCPServer {
         class_name = br.readLine();
         method = br.readLine();
 
+
         Integer[] tab = {1, 0, 2, 3, 1, 4, 6, 5, 4, 2, 3, 4, 5, 6};
+        
+        List<TCPServerThread> tcpServerThreadList = new ArrayList<TCPServerThread>();
         GoThread goThread = new GoThread(br);
-        while (true) {
+
+        while (continu) {
             System.out.println("Waiting for Connection ...");
             clientSoc = serverSoc.accept();
             TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab, goThread);
+            tcpServerThreadList.add(serverThread);
+            if (!goThread.isAlive()){
+                continu = false;
+            }
+        }
+
+        for (TCPServerThread serverThread : tcpServerThreadList){
+            serverThread.join();
         }
     }
 }
+
+
 class GoThread extends  Thread{
     BufferedReader br;
     boolean continu = true;
@@ -57,7 +72,6 @@ class GoThread extends  Thread{
     @Override
     public void run() {
         while (continu) {
-            System.out.println("gothread");
             try{
                 if (br.readLine().equals("go")){
                     continu = false;

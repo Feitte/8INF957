@@ -12,12 +12,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TCPServer.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TCPServer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/TCPServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="53" column="16" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
+            <state relative-caret-position="190">
+              <caret line="39" column="49" selection-start-line="39" selection-start-column="49" selection-end-line="39" selection-end-column="49" />
               <folding>
+                <element signature="e#1063#1083#0" expanded="true" />
+                <element signature="e#1080#1097#0" expanded="true" />
                 <element signature="e#2250#2259#0" expanded="true" />
               </folding>
             </state>
@@ -33,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="myMethod.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="myMethod.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/myMethod.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="34" column="58" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
+            <state relative-caret-position="238">
+              <caret line="14" column="9" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="14" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -69,8 +71,8 @@
         <option value="$PROJECT_DIR$/src/main/Calculate.java" />
         <option value="$PROJECT_DIR$/src/main/CalculateImpl.java" />
         <option value="$PROJECT_DIR$/src/main/Calc.java" />
-        <option value="$PROJECT_DIR$/src/main/TCPServer.java" />
         <option value="$PROJECT_DIR$/src/main/myMethod.java" />
+        <option value="$PROJECT_DIR$/src/main/TCPServer.java" />
       </list>
     </option>
   </component>
@@ -139,13 +141,6 @@
               <item name="TCPServer" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TCPServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TCPServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="TCPServer.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
           </expand>
           <select />
@@ -283,7 +278,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58729000" />
+    <option name="totallyTimeSpent" value="59713000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -307,12 +302,12 @@
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="5" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32965517" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32965517" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32930845" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15690105" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15690105" />
       <window_info anchor="right" id="Database" order="4" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -380,6 +375,8 @@
         <state relative-caret-position="255">
           <caret line="63" column="33" selection-start-line="63" selection-start-column="33" selection-end-line="63" selection-end-column="33" />
           <folding>
+            <element signature="e#1063#1083#0" expanded="true" />
+            <element signature="e#1080#1097#0" expanded="true" />
             <element signature="e#2250#2259#0" expanded="true" />
           </folding>
         </state>
@@ -398,6 +395,8 @@
         <state relative-caret-position="85">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
           <folding>
+            <element signature="e#1063#1083#0" expanded="true" />
+            <element signature="e#1080#1097#0" expanded="true" />
             <element signature="e#2250#2259#0" expanded="true" />
           </folding>
         </state>
@@ -590,20 +589,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/TCPServer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/myMethod.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="53" column="16" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
-          <folding>
-            <element signature="e#2250#2259#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="238">
+          <caret line="14" column="9" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="14" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/myMethod.java">
+    <entry file="file://$PROJECT_DIR$/src/main/TCPServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="34" column="58" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
+        <state relative-caret-position="190">
+          <caret line="39" column="49" selection-start-line="39" selection-start-column="49" selection-end-line="39" selection-end-column="49" />
+          <folding>
+            <element signature="e#1063#1083#0" expanded="true" />
+            <element signature="e#1080#1097#0" expanded="true" />
+            <element signature="e#2250#2259#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
