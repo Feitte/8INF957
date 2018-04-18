@@ -1,6 +1,7 @@
 package main;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class TCPServer {
     static boolean continu;
 
     public static void main(String args[]) throws Exception {
+
         ServerSocket serverSoc = null;
 
         String class_name;
@@ -19,10 +21,11 @@ public class TCPServer {
 
         int portNumber;
         continu = true;
+        
+        if (args.length == 2) {
+            portNumber = Integer.parseInt(args[1]);
+            serverSoc = new ServerSocket(portNumber,100, InetAddress.getByName(args[0]));
 
-        if (args.length == 1) {
-            portNumber = Integer.parseInt(args[0]);
-            serverSoc = new ServerSocket(portNumber);
 
         } else {
             System.out.print("Invalid parameters ");
