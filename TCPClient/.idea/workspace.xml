@@ -15,8 +15,8 @@
       <file leaf-file-name="TCPClientDemo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/TCPClientDemo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1818">
-              <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
+            <state relative-caret-position="102">
+              <caret line="55" selection-start-line="55" selection-end-line="55" />
             </state>
           </provider>
         </entry>
@@ -248,16 +248,15 @@
       <workItem from="1523997152312" duration="2655000" />
       <workItem from="1524000840125" duration="411000" />
       <workItem from="1524002531908" duration="5696000" />
-      <workItem from="1524009275335" duration="1867000" />
+      <workItem from="1524009275335" duration="3652000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52761000" />
+    <option name="totallyTimeSpent" value="54546000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -265,11 +264,11 @@
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5078125" side_tool="true" visible="true" weight="0.32551724" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50846356" side_tool="true" visible="true" weight="0.32551724" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4921875" visible="true" weight="0.32551724" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49153647" visible="true" weight="0.32551724" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32930845" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -672,8 +671,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/TCPClientDemo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1818">
-          <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
+        <state relative-caret-position="102">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
         </state>
       </provider>
     </entry>

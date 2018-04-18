@@ -49,22 +49,18 @@ class TCPClient {
     }
 
     public void display() throws Exception {
-        String msgFromServer;
-        String a;
-        String b;
+
         String method;
         String class_name;
-        String msg;
-        Integer choice;
         String list;
-
 
         Class Calc;
         Method serverMethod;
         Object calc_class;
         Object output = null;
+        boolean continu = true;
 
-        while (true) {
+        while (continu) {
 
 
             try {
@@ -126,6 +122,7 @@ class TCPClient {
                 System.out.println("Result is : " + (output).toString());
 
                 dout.writeUTF(output.toString());
+                continu = false;
 
             } catch (Exception e) {
                 System.out.println(e);

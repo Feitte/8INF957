@@ -124,37 +124,17 @@ class TCPServerThread extends Thread
     {
 
         ArrayList<Integer> list = new ArrayList<Integer>();
-    	Class Calc;
-        Object calc_class;
-        Object output = null;
-        Method add;
-        String msg;
-        String a;
-        String b;
-        String method;
-        String class_name;
-        String msgFromSlave ;
 
 
         System.out.println(numClient);
 
-
-
-        //début Copier Coller
-
         File calc = new File("src\\main\\Calc.java");
 
         try {
-
-
             dout.writeUTF(this.class_name);
             dout.writeUTF(this.method);
 
             ByteStream.toStream(dout, calc);
-
-            // Wait for the response from server...
-            //msgFromSlave = din.readUTF();
-            //System.out.print("[Server] Result: " + msgFromSlave + "\n");
 
             if (br.readLine().equals("go")) {
                 dout.writeUTF("go");
@@ -176,121 +156,7 @@ class TCPServerThread extends Thread
             //e.printStackTrace();
         }
 
-
-
-
-
-
-
-
         System.out.println("[Client] SourceColl Mod");
-
-        //Send main.Calc to server...
-
-
-        //fin copier coller
-
-
-
-
-/*
-
-        while(true)
-        {
-            try
-            {
-                // Read parameters from client
-                msg = din.readUTF();
-                int mod=Integer.parseInt(msg);
-                class_name = din.readUTF();
-                method = din.readUTF();
-                a = din.readUTF();
-                b = din.readUTF();
-                System.out.println("Client wants to " + method + "(" + a + "," + b + ")");
-
-                switch (mod) {
-                    case 1:
-                        System.out.println("----> SourceColl Mod");
-
-                        // Create a new source file if it doesn't exist
-                        //File calc = new File("src\\main\\" + class_name + ".java");
-                        try {
-                            boolean isNewFile = calc.createNewFile();
-                            if (isNewFile) {
-                                System.out.println("A source file was created");
-                            } else {
-                                System.out.println("Source file already exist, no need to create a new one");
-                            }
-                            // Copy data received from client to this new file
-                            ByteStream.toFile(din, calc);
-
-                            // Compilation Step
-                            System.out.println("**********");
-                            runProcess("javac -cp src src/main/" + class_name + ".java -d out/production/Master");
-                            System.out.println("**********");
-
-                            // Reflexion Step
-                            Calc = Class.forName("main." + class_name);
-                            calc_class = Calc.newInstance();
-
-                            add = calc_class.getClass().getMethod(method, String.class, String.class);
-                            output = add.invoke(calc_class, a, b);
-
-
-                        } catch (IOException e) {
-                            System.out.println("Exception Occurred:");
-                            e.printStackTrace();
-                        }
-
-                        //Out: result + current time of server
-                        System.out.println("Result is : " + output);
-
-                        dout.writeUTF(list.toString());
-                        //dout.writeUTF(output.toString() + "  [" + (new Date().toString()) + "]");
-
-                        break;
-                    case 2:
-                        System.out.println("----> ByteColl Mod");
-
-                        // Create a new bytecode file if it doesn't exist
-                        File calc_comp = new File("out\\production\\Master\\main\\" + class_name + ".class");
-                        try {
-                            boolean isNewFile = calc_comp.createNewFile();
-                            if (isNewFile) {
-                                System.out.println("A bytecode file was created");
-                            } else {
-                                System.out.println("Bytecode file already exist, no need to create a new one");
-                            }
-                            // Copy data received from client to this new file
-                            ByteStream.toFile(din, calc_comp);
-
-                            // Reflexion Step
-                            Calc = Class.forName("main." + class_name);
-                            calc_class = Calc.newInstance();
-
-                            add = calc_class.getClass().getMethod(method, String.class, String.class);
-                            output = add.invoke(calc_class, a, b);
-
-                        } catch (IOException e) {
-                            System.out.println("Exception Occurred:");
-                            e.printStackTrace();
-                        }
-
-                        //Out: result + current time of server
-                        System.out.println("Result is : " + output);
-                        dout.writeUTF(output.toString() + "  [" + (new Date().toString()) + "]");
-                        break;
-                    case 3:
-                        System.out.println("----> RMI Mod");
-
-                        //Out: current time of server
-                        dout.writeUTF("[" + (new Date().toString()) + "]");
-                        break;
-                }
-            }
-
-        }
-        */
     }
 
 
