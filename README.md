@@ -12,5 +12,13 @@ L'algortihme doit être capable de transférer le code utilisé de manière comp
 Au niveau technique, le transfert du code source, se fera par un transfert de fichier compilé du code en java. Les données seront transférer sous forme de json. Le monitoring des ressources, l'interface graphique et les connexions seront réalisés à l'aide de bibliothèques java.
 
 
+# Guide d'utilisation
+1. Start Serveur avec l'argument "port" (numéro du port choisi) ex: 1234
+2. Initialisation de la méthode: "Calc" et "sort" par défaut
+3. Start plusieurs Client avec les arguments "ip" ( ip extérieur de la machine) et "port" ex: 127.0.0.1 1234
+4. Rentrer "go" sur le serveur
+5. Le programme s'exécute et affiche le résultat.
+
+
 lien vers le diagramme de classe : 
 https://drive.google.com/file/d/1r7uu5xwjkwhW10FK8WjthZ8iRImIhpB3/view?usp=sharing
