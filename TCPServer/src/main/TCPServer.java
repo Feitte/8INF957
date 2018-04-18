@@ -10,8 +10,8 @@ import java.util.List;
 public class TCPServer {
 
     static boolean continu;
+
     public static void main(String args[]) throws Exception {
-        Socket clientSoc;
         ServerSocket serverSoc;
 
         String class_name;
@@ -39,32 +39,77 @@ public class TCPServer {
 
 
         Integer[] tab = {1, 0, 2, 3, 1, 4, 6, 5, 4, 2, 3, 4, 5, 6};
-        
-        List<TCPServerThread> tcpServerThreadList = new ArrayList<TCPServerThread>();
-        GoThread goThread = new GoThread(br);
 
+        List<TCPServerThread> tcpServerThreadList = new ArrayList<TCPServerThread>();
+        ArrayList<ArrayList<Integer>> integerList = new ArrayList<ArrayList<Integer>>();
+        List<Socket> socketList = new ArrayList<>();
+
+        GoThread goThread = new GoThread(br);
+        SocketThread socketThread = new SocketThread(socketList, serverSoc);
         while (continu) {
-            System.out.println("Waiting for Connection ...");
-            clientSoc = serverSoc.accept();
-            TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab, goThread);
-            tcpServerThreadList.add(serverThread);
-            if (!goThread.isAlive()){
+
+            if (!socketList.isEmpty()) {
+                ArrayList<Integer> tmp = new ArrayList<>();
+                integerList.add(tmp);
+                Socket clientSoc = socketList.get(0);
+                TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab, goThread, tmp);
+                socketList.remove(clientSoc);
+                tcpServerThreadList.add(serverThread);
+
+            }
+            if (!goThread.isAlive()) {
                 continu = false;
+                socketThread.interrupt();
             }
         }
+        for (TCPServerThread serverThread : tcpServerThreadList) {
+            try {
+                serverThread.join();
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+        ArrayList<Integer> finalList = new ArrayList<>();
+        for(List<Integer> l : integerList){
+            finalList.addAll(l);
+        }
+        System.out.println(finalList);
 
-        for (TCPServerThread serverThread : tcpServerThreadList){
-            serverThread.join();
+    }
+}
+
+class SocketThread extends Thread {
+    ServerSocket serverSocket;
+    List<Socket> socketList;
+
+    String class_name;
+    String method;
+
+    SocketThread(List<Socket> socketList, ServerSocket serverSoc) {
+        this.serverSocket = serverSoc;
+        this.socketList = socketList;
+        start();
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            System.out.println("Waiting for Connection ...");
+            try {
+                Socket clientSoc = serverSocket.accept();
+                socketList.add(clientSoc);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
         }
     }
 }
 
-
-class GoThread extends  Thread{
+class GoThread extends Thread {
     BufferedReader br;
     boolean continu = true;
 
-    GoThread(BufferedReader br){
+    GoThread(BufferedReader br) {
         this.br = br;
         start();
     }
@@ -72,11 +117,11 @@ class GoThread extends  Thread{
     @Override
     public void run() {
         while (continu) {
-            try{
-                if (br.readLine().equals("go")){
+            try {
+                if (br.readLine().equals("go")) {
                     continu = false;
                 }
-            }catch (IOException e){
+            } catch (IOException e) {
                 System.out.println(e);
             }
 
@@ -89,6 +134,8 @@ class TCPServerThread extends Thread {
     int idClient;
 
     Integer[] tab;
+    ArrayList<Integer> list;
+    ArrayList<Integer> integerArrayList;
 
     Socket ClientSoc;
     DataInputStream din;
@@ -101,7 +148,7 @@ class TCPServerThread extends Thread {
     Thread th;
 
 
-    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab, Thread th) {
+    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab, Thread th, ArrayList<Integer> integerArrayList) {
         try {
             ClientSoc = soc;
 
@@ -113,6 +160,7 @@ class TCPServerThread extends Thread {
             this.method = method;
             this.tab = tab;
             this.th = th;
+            this.integerArrayList = integerArrayList;
 
 
             System.out.println("\nTCP Client Connected ...");
@@ -128,9 +176,6 @@ class TCPServerThread extends Thread {
     @Override
     public void run() {
 
-        ArrayList<Integer> list = new ArrayList<Integer>();
-
-
         System.out.println(numClient);
 
         File calc = new File("src\\main\\Calc.java");
@@ -145,7 +190,7 @@ class TCPServerThread extends Thread {
                 System.out.println("alive");
                 try {
                     th.join();
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     System.out.println(e);
                 }
 
@@ -154,8 +199,17 @@ class TCPServerThread extends Thread {
                 list = myMethod.arrayDivider(tab, numClient)[idClient];
                 dout.writeUTF(list.toString());
                 dout.writeUTF("go");
-                System.out.println(din.readUTF());
 
+                String str = din.readUTF();
+                String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
+                for (String string : arrayString) {
+                    try {
+                        integerArrayList.add(Integer.parseInt(string));
+                    } catch (Exception e) {
+                        System.out.println("Not integer");
+                    }
+
+                }
             }
 
         } catch (IOException e) {
