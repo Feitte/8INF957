@@ -45,8 +45,8 @@ public class TCPServer
 
             // Set a port and bind
             LocateRegistry.createRegistry(10000);
-            CalculateImpl c = new CalculateImpl();
-            java.rmi.Naming.rebind("rmi://localhost:10000/MaCalc", c);
+            //CalculateImpl c = new CalculateImpl();
+            //java.rmi.Naming.rebind("rmi://localhost:10000/MaCalc", c);
             System.out.println("RMI configuration done");
 
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -58,9 +58,6 @@ public class TCPServer
 
             Integer[] tab = {1,0,2,3,1,4,6,5,4,2,3,4,5,6} ;
 
-
-
-
             while(true)
             {
                 System.out.println("Waiting for Connection ...");
@@ -68,12 +65,9 @@ public class TCPServer
                 TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name,method,tab);
             }
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-
     }
 }
 
@@ -102,6 +96,7 @@ class TCPServerThread extends Thread
             din = new DataInputStream(ClientSoc.getInputStream());
             dout = new DataOutputStream(ClientSoc.getOutputStream());
             br = new BufferedReader((new InputStreamReader(System.in)));
+
             this.class_name = class_name;
             this.method=method;
             this.tab = tab;
@@ -156,15 +151,6 @@ class TCPServerThread extends Thread
             //e.printStackTrace();
         }
 
-        System.out.println("[Client] SourceColl Mod");
-    }
-
-
-    // Create a new process to compile source file
-    private static void runProcess(String command) throws Exception {
-        Process pro = Runtime.getRuntime().exec(command);
-        pro.waitFor();
-        System.out.println("Compilation exitValue() : " + pro.exitValue());
     }
 }
 

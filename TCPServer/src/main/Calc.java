@@ -6,11 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Calc {
-    public int add(String a, String b) {
-        int x = Integer.parseInt(a);
-        int y = Integer.parseInt(b);
-        return x + y;
-    }
 
     public List<Integer> sort(List<Integer> list) {
         Integer[] tab = new Integer[list.size()];

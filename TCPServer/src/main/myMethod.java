@@ -36,7 +36,6 @@ public class myMethod {
                 if (val == max) {
                     dividedArray[num - 1].add(val);
                 } else {
-                    System.out.println((int)(val - min) / truc);
                     float indice = (val - min) / truc;
                     dividedArray[(int)indice].add(val);
                 }
