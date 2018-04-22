@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TCPServer {
+public class TCPServer{
 
     static boolean continu;
 
@@ -20,6 +20,8 @@ public class TCPServer {
         ServerSocket serverSoc = null;
         String fin = "in.txt";
         String fout = "out.txt";
+        int type ;
+        TypeFunction tf;
 
         String class_name;
         String method;
@@ -27,10 +29,11 @@ public class TCPServer {
         int portNumber;
         continu = true;
 
-        if (args.length == 2) {
+        if (args.length == 4) {
             portNumber = Integer.parseInt(args[1]);
             serverSoc = new ServerSocket(portNumber, 100, InetAddress.getByName(args[0]));
-
+            fin = args[3];
+            type = Integer.parseInt(args[2]);
 
         } else {
             System.out.print("Invalid parameters ");
@@ -58,11 +61,12 @@ public class TCPServer {
             method = br.readLine();
 
             String str = ReadFileIn(fin);
-            Integer[] tab = StringToArray(str);
+            tf = TypeManager.getTypeFunction(type);
+            Object[] tab = tf.StringToArray(str);
 
             int[] cpt = {0};
             List<TCPServerThread> tcpServerThreadList = new ArrayList<TCPServerThread>();
-            ArrayList<ArrayList<Integer>> integerList = new ArrayList<ArrayList<Integer>>();
+            ArrayList<ArrayList<Object>> objectList = new ArrayList<ArrayList<Object>>();
             List<Socket> socketList = new ArrayList<>();
 
             GoThread goThread = new GoThread(br);
@@ -72,13 +76,12 @@ public class TCPServer {
 
                 if (!socketList.isEmpty()) {
 
-                    ArrayList<Integer> tmp = new ArrayList<>();
-                    integerList.add(tmp);
+                    ArrayList<Object> tmp = new ArrayList<>();
+                    objectList.add(tmp);
 
                     Socket clientSoc = socketList.get(0);
-                    TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab, goThread, tmp, cpt);
+                    TCPServerThread serverThread = new TCPServerThread(clientSoc, class_name, method, tab, goThread, tmp,type,tf);
                     socketList.remove(clientSoc);
-
                     tcpServerThreadList.add(serverThread);
 
                 }
@@ -89,7 +92,7 @@ public class TCPServer {
             }
 
             WaitForServerThread(tcpServerThreadList);
-            List<Integer> finalList = FinalList(integerList);
+            List<Integer> finalList = FinalList(objectList);
             System.out.println(finalList);
             toFile(finalList, fout);
             br.close();
@@ -113,22 +116,8 @@ public class TCPServer {
         return str;
     }
 
-    private static Integer[] StringToArray(String str) {
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
-        for (String string : arrayString) {
-            try {
-                list.add(Integer.parseInt(string));
-            } catch (Exception e) {
-                System.out.println("Not integer");
-            }
-        }
-        Integer[] tab = new Integer[list.size()];
-        list.toArray(tab);
-        return tab;
-    }
 
-    private static void toFile(List<Integer> finalList, String fout) {
+    private static void toFile(List<?> finalList, String fout) {
         print("[", fout);
         for (int i = 0; i < finalList.size(); i++) {
             if (i == finalList.size() - 1) {
@@ -160,9 +149,9 @@ public class TCPServer {
     }
 
     //Passe d'une liste de liste d'entier à une liste d'entier
-    private static List<Integer> FinalList(ArrayList<ArrayList<Integer>> list) {
-        ArrayList<Integer> finalList = new ArrayList<>();
-        for (List<Integer> l : list) {
+    private static <T> List FinalList(ArrayList<ArrayList<T>> list) {
+        ArrayList<T> finalList = new ArrayList<T>();
+        for (List<T> l : list) {
             finalList.addAll(l);
         }
         return finalList;
@@ -226,10 +215,12 @@ class GoThread extends Thread {
 class TCPServerThread extends Thread {
     private static int numClient;
     private int idClient;
+    private int type;
+    private TypeFunction tf;
 
-    private Integer[] tab;
-    private ArrayList<Integer> list;
-    private ArrayList<Integer> integerArrayList;
+    private Object[] tab;
+    private ArrayList<Object> list;
+    private ArrayList<Object> integerArrayList;
 
     private Socket ClientSoc;
     private DataInputStream din;
@@ -242,7 +233,7 @@ class TCPServerThread extends Thread {
     private Thread th;
 
 
-    TCPServerThread(Socket soc, String class_name, String method, Integer[] tab, Thread th, ArrayList<Integer> integerArrayList, int[] cpt) {
+    TCPServerThread(Socket soc, String class_name, String method, Object[] tab, Thread th, ArrayList<Object> integerArrayList, int type, TypeFunction tf) {
         try {
             ClientSoc = soc;
 
@@ -255,6 +246,8 @@ class TCPServerThread extends Thread {
             this.tab = tab;
             this.th = th;
             this.integerArrayList = integerArrayList;
+            this.type = type;
+            this.tf = tf;
 
 
             System.out.println("\nTCP Client Connected ...");
@@ -266,7 +259,7 @@ class TCPServerThread extends Thread {
         }
     }
 
-    public void stringToListInteger(String str, ArrayList<Integer> integerArrayList) {
+   /* public void stringToListInteger(String str, ArrayList<Integer> integerArrayList) {
         String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
         for (String string : arrayString) {
             try {
@@ -276,7 +269,7 @@ class TCPServerThread extends Thread {
             }
 
         }
-    }
+    }*/
 
     @Override
     public void run() {
@@ -288,6 +281,7 @@ class TCPServerThread extends Thread {
         try {
             dout.writeUTF(this.class_name);
             dout.writeUTF(this.method);
+            dout.writeUTF(Integer.toString(this.type));
 
             ByteStream.toStream(dout, calc);
 
@@ -300,21 +294,22 @@ class TCPServerThread extends Thread {
                 }
 
                 dout.writeUTF("go");
-                list = myMethod.arrayDivider(tab, numClient)[idClient];
+                list = myMethod.arrayDivider(tab, numClient,type)[idClient];
+                System.out.println(list.toString());
                 dout.writeUTF(list.toString());
 
 
                 String str = din.readUTF();
-                stringToListInteger(str, integerArrayList);
+                tf.StringToList(str, integerArrayList);
             }
 
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
             //numClient--;
             System.out.println(this.idClient);
-            list = myMethod.arrayDivider(tab, numClient)[idClient];
+            list = myMethod.arrayDivider(tab, numClient,type)[idClient];
             Calc c = new Calc();
-            integerArrayList.addAll(c.sort(list));
+            //integerArrayList.addAll(c.sort(list));
 
             //e.printStackTrace();
         }

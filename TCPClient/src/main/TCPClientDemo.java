@@ -2,6 +2,7 @@ package main;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ class TCPClient {
         System.out.println("Compilation exitValue() : " + pro.exitValue());
     }
 
-    private void StringToListInteger(String str, List<Integer> list ){
+    /*private void StringToListInteger(String str, List<Integer> list ){
         String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
         for (String string : arrayString){
             try{
@@ -58,13 +59,14 @@ class TCPClient {
             }
 
         }
-    }
+    }*/
 
     public void display() throws Exception {
 
         String method;
         String class_name;
         String string;
+        int type;
 
         Class Calc;
         Method serverMethod;
@@ -81,6 +83,9 @@ class TCPClient {
 
                 method = din.readUTF();
                 System.out.println(method);
+
+                type = Integer.parseInt(din.readUTF());
+                System.out.println(type);
 
                 // Create a new source file if it doesn't exist
                 File calc = new File("src\\main\\" + class_name + ".java");
@@ -103,18 +108,18 @@ class TCPClient {
                     // Reflexion Step
                     Calc = Class.forName("main." + class_name);
                     calc_class = Calc.newInstance();
-
-                    serverMethod = calc_class.getClass().getMethod(method,List.class);
+                    serverMethod = calc_class.getClass().getMethod(method,List.class,int.class);
                     //go
                     System.out.println(din.readUTF());
                     //liste
                     string = din.readUTF();
                     System.out.println(string);
 
-                    ArrayList<Integer> list = new ArrayList<>();
-                    StringToListInteger(string,list);
+                    ArrayList<Object> list = new ArrayList<>();
+                    TypeFunction tf = TypeManager.getTypeFunction(type);
+                    tf.StringToList(string,list);
 
-                    output = serverMethod.invoke(calc_class,list);
+                    output = serverMethod.invoke(calc_class,list,type);
 
 
 
