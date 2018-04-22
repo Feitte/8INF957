@@ -1,6 +1,8 @@
 package main;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -64,7 +66,6 @@ public class TCPServer{
             tf = TypeManager.getTypeFunction(type);
             Object[] tab = tf.StringToArray(str);
 
-            int[] cpt = {0};
             List<TCPServerThread> tcpServerThreadList = new ArrayList<TCPServerThread>();
             ArrayList<ArrayList<Object>> objectList = new ArrayList<ArrayList<Object>>();
             List<Socket> socketList = new ArrayList<>();
@@ -92,6 +93,7 @@ public class TCPServer{
             }
 
             WaitForServerThread(tcpServerThreadList);
+            //TODO Changer le moyen de réunir les valeurs
             List<Integer> finalList = FinalList(objectList);
             System.out.println(finalList);
             toFile(finalList, fout);
@@ -220,7 +222,7 @@ class TCPServerThread extends Thread {
 
     private Object[] tab;
     private ArrayList<Object> list;
-    private ArrayList<Object> integerArrayList;
+    private ArrayList<Object> arrayList;
 
     private Socket ClientSoc;
     private DataInputStream din;
@@ -233,7 +235,7 @@ class TCPServerThread extends Thread {
     private Thread th;
 
 
-    TCPServerThread(Socket soc, String class_name, String method, Object[] tab, Thread th, ArrayList<Object> integerArrayList, int type, TypeFunction tf) {
+    TCPServerThread(Socket soc, String class_name, String method, Object[] tab, Thread th, ArrayList<Object> arrayList, int type, TypeFunction tf) {
         try {
             ClientSoc = soc;
 
@@ -245,7 +247,7 @@ class TCPServerThread extends Thread {
             this.method = method;
             this.tab = tab;
             this.th = th;
-            this.integerArrayList = integerArrayList;
+            this.arrayList = arrayList;
             this.type = type;
             this.tf = tf;
 
@@ -258,18 +260,6 @@ class TCPServerThread extends Thread {
             ex.printStackTrace();
         }
     }
-
-   /* public void stringToListInteger(String str, ArrayList<Integer> integerArrayList) {
-        String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
-        for (String string : arrayString) {
-            try {
-                integerArrayList.add(Integer.parseInt(string));
-            } catch (Exception e) {
-                System.out.println("Not integer");
-            }
-
-        }
-    }*/
 
     @Override
     public void run() {
@@ -295,12 +285,11 @@ class TCPServerThread extends Thread {
 
                 dout.writeUTF("go");
                 list = myMethod.arrayDivider(tab, numClient,type)[idClient];
-                System.out.println(list.toString());
                 dout.writeUTF(list.toString());
 
 
                 String str = din.readUTF();
-                tf.StringToList(str, integerArrayList);
+                tf.StringToList(str, arrayList);
             }
 
         } catch (IOException e) {
@@ -309,9 +298,16 @@ class TCPServerThread extends Thread {
             System.out.println(this.idClient);
             list = myMethod.arrayDivider(tab, numClient,type)[idClient];
             Calc c = new Calc();
-            //integerArrayList.addAll(c.sort(list));
 
-            //e.printStackTrace();
+            //integerArrayList.addAll(
+            try {
+                Method serverMethod = c.getClass().getMethod(method, List.class, int.class);
+                List<Object> listO = (List<Object>)serverMethod.invoke(c,list,type);
+                arrayList.addAll(listO);
+
+            }catch (Exception e1){
+                System.out.println(e1 );
+            }
         }
 
     }

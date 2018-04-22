@@ -15,8 +15,8 @@
       <file leaf-file-name="TCPClientDemo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/TCPClientDemo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="110" column="94" selection-start-line="110" selection-start-column="94" selection-end-line="110" selection-end-column="94" />
+            <state relative-caret-position="34">
+              <caret line="82" column="25" selection-start-line="82" selection-start-column="25" selection-end-line="82" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -33,8 +33,8 @@
       <file leaf-file-name="FloatFunction.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/FloatFunction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            <state relative-caret-position="85">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
@@ -42,8 +42,8 @@
       <file leaf-file-name="TypeFunction.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/TypeFunction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+            <state relative-caret-position="119">
+              <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -60,13 +60,10 @@
       <file leaf-file-name="Calc.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/Calc.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-408">
+            <state relative-caret-position="102">
               <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#215#223#0" expanded="true" />
-                <element signature="e#721#729#0" expanded="true" />
-                <element signature="e#1089#1097#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -75,8 +72,8 @@
       <file leaf-file-name="ByteStream.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/ByteStream.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1683">
-              <caret line="103" selection-start-line="103" selection-end-line="103" />
+            <state relative-caret-position="969">
+              <caret line="61" column="31" selection-start-line="61" selection-start-column="23" selection-end-line="61" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -84,8 +81,8 @@
       <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4369">
-              <caret line="257" column="41" selection-start-line="257" selection-start-column="41" selection-end-line="257" selection-end-column="41" />
+            <state relative-caret-position="4335">
+              <caret line="255" column="41" selection-start-line="255" selection-start-column="41" selection-end-line="255" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -111,6 +108,7 @@
         <option value="$PROJECT_DIR$/src/main/Calculatrice.java" />
         <option value="$PROJECT_DIR$/src/main/Calculate.java" />
         <option value="$PROJECT_DIR$/src/main/Calc.java" />
+        <option value="$PROJECT_DIR$/src/main/FloatFunction.java" />
         <option value="$PROJECT_DIR$/src/main/TCPClientDemo.java" />
       </list>
     </option>
@@ -131,9 +129,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -294,12 +292,13 @@
       <workItem from="1524421664382" duration="1314000" />
       <workItem from="1524423769857" duration="4357000" />
       <workItem from="1524432874087" duration="20000" />
-      <workItem from="1524434204923" duration="1577000" />
+      <workItem from="1524434204923" duration="2009000" />
+      <workItem from="1524436464512" duration="1134000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69538000" />
+    <option name="totallyTimeSpent" value="71104000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -311,11 +310,11 @@
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.51171875" side_tool="true" visible="true" weight="0.4634483" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.51171875" side_tool="true" weight="0.4634483" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48828125" visible="true" weight="0.0" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48828125" visible="true" weight="0.4634483" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32930845" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -325,8 +324,8 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="4" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -340,6 +339,11 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/TCPClientDemo.java">
@@ -573,35 +577,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4369">
-          <caret line="257" column="41" selection-start-line="257" selection-start-column="41" selection-end-line="257" selection-end-column="41" />
+        <state relative-caret-position="4335">
+          <caret line="255" column="41" selection-start-line="255" selection-start-column="41" selection-end-line="255" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/ByteStream.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1683">
-          <caret line="103" selection-start-line="103" selection-end-line="103" />
+        <state relative-caret-position="969">
+          <caret line="61" column="31" selection-start-line="61" selection-start-column="23" selection-end-line="61" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/Calc.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-408">
+        <state relative-caret-position="102">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#215#223#0" expanded="true" />
-            <element signature="e#721#729#0" expanded="true" />
-            <element signature="e#1089#1097#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/FloatFunction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/TypeFunction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+        <state relative-caret-position="119">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
         </state>
       </provider>
     </entry>
@@ -619,17 +627,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/FloatFunction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/TCPClientDemo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="110" column="94" selection-start-line="110" selection-start-column="94" selection-end-line="110" selection-end-column="94" />
+        <state relative-caret-position="34">
+          <caret line="82" column="25" selection-start-line="82" selection-start-column="25" selection-end-line="82" selection-end-column="25" />
         </state>
       </provider>
     </entry>

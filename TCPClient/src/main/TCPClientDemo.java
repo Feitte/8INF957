@@ -49,17 +49,6 @@ class TCPClient {
         System.out.println("Compilation exitValue() : " + pro.exitValue());
     }
 
-    /*private void StringToListInteger(String str, List<Integer> list ){
-        String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
-        for (String string : arrayString){
-            try{
-                list.add(Integer.parseInt(string));
-            }catch (Exception e){
-                System.out.println("Not integer");
-            }
-
-        }
-    }*/
 
     public void display() throws Exception {
 
@@ -109,8 +98,10 @@ class TCPClient {
                     Calc = Class.forName("main." + class_name);
                     calc_class = Calc.newInstance();
                     serverMethod = calc_class.getClass().getMethod(method,List.class,int.class);
+
                     //go
                     System.out.println(din.readUTF());
+
                     //liste
                     string = din.readUTF();
                     System.out.println(string);
@@ -120,7 +111,6 @@ class TCPClient {
                     tf.StringToList(string,list);
 
                     output = serverMethod.invoke(calc_class,list,type);
-
 
 
                 } catch (IOException e) {
