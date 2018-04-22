@@ -1,16 +1,14 @@
 package main;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 
 public class TCPServer {
@@ -31,7 +29,7 @@ public class TCPServer {
 
         if (args.length == 2) {
             portNumber = Integer.parseInt(args[1]);
-            serverSoc = new ServerSocket(portNumber,100, InetAddress.getByName(args[0]));
+            serverSoc = new ServerSocket(portNumber, 100, InetAddress.getByName(args[0]));
 
 
         } else {
@@ -58,14 +56,10 @@ public class TCPServer {
             System.out.println("Enter Class and Method names:");
             class_name = br.readLine();
             method = br.readLine();
-            String str;
-            BufferedReader brFile = new BufferedReader(new FileReader(fin));
-            try{
-                str = brFile.readLine();
-            }finally {
-                brFile.close();
-            }
+
+            String str = ReadFileIn(fin);
             Integer[] tab = StringToArray(str);
+
             int[] cpt = {0};
             List<TCPServerThread> tcpServerThreadList = new ArrayList<TCPServerThread>();
             ArrayList<ArrayList<Integer>> integerList = new ArrayList<ArrayList<Integer>>();
@@ -97,20 +91,35 @@ public class TCPServer {
             WaitForServerThread(tcpServerThreadList);
             List<Integer> finalList = FinalList(integerList);
             System.out.println(finalList);
-            toFile(finalList,fout);
+            toFile(finalList, fout);
             br.close();
 
 
         }
     }
 
-        private static Integer[] StringToArray (String str){
+    private static String ReadFileIn(String fin) {
+        String str = "";
+        try {
+            BufferedReader brFile = new BufferedReader(new FileReader(fin));
+            try {
+                str = brFile.readLine();
+            } finally {
+                brFile.close();
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return str;
+    }
+
+    private static Integer[] StringToArray(String str) {
         ArrayList<Integer> list = new ArrayList<Integer>();
         String[] arrayString = str.substring(1, str.length() - 1).split("\\s*,\\s*");
-        for (String string : arrayString){
-            try{
+        for (String string : arrayString) {
+            try {
                 list.add(Integer.parseInt(string));
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Not integer");
             }
         }
@@ -119,22 +128,22 @@ public class TCPServer {
         return tab;
     }
 
-    private static void toFile(List<Integer>finalList,String fout){
+    private static void toFile(List<Integer> finalList, String fout) {
         print("[", fout);
-        for (int i=0; i < finalList.size();i++){
-            if (i == finalList.size()-1){
-                print(finalList.get(i).toString()  , fout);
-            }else{
-                print(finalList.get(i).toString() + " ," , fout);
+        for (int i = 0; i < finalList.size(); i++) {
+            if (i == finalList.size() - 1) {
+                print(finalList.get(i).toString(), fout);
+            } else {
+                print(finalList.get(i).toString() + " ,", fout);
             }
         }
         print("]", fout);
     }
 
-    private static void print(String string, String filename){
-        try{
+    private static void print(String string, String filename) {
+        try {
             Files.write(Paths.get(filename), (string + " ").getBytes(), StandardOpenOption.APPEND);
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
