@@ -94,13 +94,32 @@ public class TCPServer{
 
             WaitForServerThread(tcpServerThreadList);
             //TODO Changer le moyen de réunir les valeurs
-            List<Integer> finalList = FinalList(objectList);
+            List<Object> finalList = FinalList(objectList);
             System.out.println(finalList);
+            finalList = CalcMethod(class_name,"FinalMethod",finalList,type);
+            System.out.println(finalList);
+
             toFile(finalList, fout);
             br.close();
 
-
         }
+    }
+
+    public static ArrayList<Object> CalcMethod (String class_name, String method,List<Object> list, int type) {
+        ArrayList<Object> arrayList = new ArrayList<>();
+        try {
+            Class Calc;
+            Calc = Class.forName("main." + class_name);
+            Object calc_class = Calc.newInstance();
+
+            Method serverMethod = calc_class.getClass().getMethod(method, List.class, int.class);
+            List<Object> listO = (List<Object>)serverMethod.invoke(calc_class,list,type);
+            arrayList.addAll(listO);
+
+        }catch (Exception e1){
+            System.out.println(e1 );
+        }
+        return arrayList;
     }
 
     private static String ReadFileIn(String fin) {
@@ -266,7 +285,7 @@ class TCPServerThread extends Thread {
 
         System.out.println(numClient);
 
-        File calc = new File("src\\main\\Calc.java");
+        File calc = new File("src\\main\\"+class_name+".java");
 
         try {
             dout.writeUTF(this.class_name);
@@ -297,17 +316,7 @@ class TCPServerThread extends Thread {
             //numClient--;
             System.out.println(this.idClient);
             list = myMethod.arrayDivider(tab, numClient,type)[idClient];
-            Calc c = new Calc();
-
-            //integerArrayList.addAll(
-            try {
-                Method serverMethod = c.getClass().getMethod(method, List.class, int.class);
-                List<Object> listO = (List<Object>)serverMethod.invoke(c,list,type);
-                arrayList.addAll(listO);
-
-            }catch (Exception e1){
-                System.out.println(e1 );
-            }
+            arrayList.addAll(TCPServer.CalcMethod(class_name,method,list,type));
         }
 
     }
