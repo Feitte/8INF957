@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class myMethod {
 
 
-    static public ArrayList<Object>[] arrayDivider(Object[] tab,int num, int type) {
+   /* static public ArrayList<Object>[] arrayDivider(Object[] tab,int num, int type) {
         ArrayList<Object>[] dividedArray = new ArrayList[num];
         switch (type) {
             case 1: //int
@@ -103,5 +103,5 @@ public class myMethod {
 
         return  dividedArray;
     }
-
+*/
 }

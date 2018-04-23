@@ -58,9 +58,9 @@ public class TCPServer{
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             System.out.println("\n\n[ DISPLAY ]");
-            System.out.println("Enter Class and Method names:");
+            System.out.println("Enter Class name:");
             class_name = br.readLine();
-            method = br.readLine();
+            method = "MainMethod";
 
             String str = ReadFileIn(fin);
             tf = TypeManager.getTypeFunction(type);
@@ -93,7 +93,6 @@ public class TCPServer{
             }
 
             WaitForServerThread(tcpServerThreadList);
-            //TODO Changer le moyen de réunir les valeurs
             List<Object> finalList = FinalList(objectList);
             System.out.println(finalList);
             finalList = CalcMethod(class_name,"FinalMethod",finalList,type);
@@ -118,6 +117,23 @@ public class TCPServer{
 
         }catch (Exception e1){
             System.out.println(e1 );
+        }
+        return arrayList;
+    }
+
+    public static ArrayList<Object> ArrayDivider (String class_name,Object[] tab,int num, int type, int idClient) {
+        ArrayList<Object> arrayList = new ArrayList<>();
+        try {
+            Class Calc;
+            Calc = Class.forName("main." + class_name);
+            Object calc_class = Calc.newInstance();
+
+            Method serverMethod = calc_class.getClass().getMethod("arrayDivider", Object[].class, int.class, int.class);
+            List<Object> listO = ((ArrayList<Object>[])serverMethod.invoke(calc_class,tab,num,type))[idClient];
+            arrayList.addAll(listO);
+
+        }catch (Exception e1){
+            System.out.println(e1 + "arrayDivider" );
         }
         return arrayList;
     }
@@ -303,7 +319,7 @@ class TCPServerThread extends Thread {
                 }
 
                 dout.writeUTF("go");
-                list = myMethod.arrayDivider(tab, numClient,type)[idClient];
+                list = TCPServer.ArrayDivider(class_name,tab,numClient,type,idClient);
                 dout.writeUTF(list.toString());
 
 
@@ -315,7 +331,7 @@ class TCPServerThread extends Thread {
             System.out.println("Exception Occurred:");
             //numClient--;
             System.out.println(this.idClient);
-            list = myMethod.arrayDivider(tab, numClient,type)[idClient];
+            list = TCPServer.ArrayDivider(class_name,tab,numClient,type,idClient);
             arrayList.addAll(TCPServer.CalcMethod(class_name,method,list,type));
         }
 
