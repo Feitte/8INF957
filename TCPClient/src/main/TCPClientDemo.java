@@ -94,6 +94,7 @@ class TCPClient {
                     runProcess("javac -cp src src/main/" + class_name + ".java -d out/production/Master");
                     System.out.println("**********");
 
+
                     // Reflexion Step
                     Calc = Class.forName("main." + class_name);
                     calc_class = Calc.newInstance();

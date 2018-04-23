@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Sort {
+public class Sort extends Calc{
     public List<Object> MainMethod(List<Object> list, int type) {
         List<Object> liste = new ArrayList<Object>();
         switch (type) {
