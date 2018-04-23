@@ -1,9 +1,15 @@
 package main;
 
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.Socket;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,9 +93,10 @@ class TCPClient {
                         System.out.println("Source file already exist, no need to create a new one");
                     }
                     // Copy data received from client to this new file
-                    ByteStream.toFile(din, calc);
+                   ByteStream.toFile(din,calc);
 
-                    // Compilation Step
+
+                   // Compilation Step
                     System.out.println("**********");
                     runProcess("javac -cp src src/main/" + class_name + ".java -d out/production/Master");
                     System.out.println("**********");

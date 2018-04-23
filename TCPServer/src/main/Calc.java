@@ -20,7 +20,7 @@ public abstract class Calc {
             dividedArray[i] = new ArrayList<Object>();
         }
         for (int i = 0; i < num; i++) {
-            for (int j = i * length / num; j < ((i + 1) * length / num) || j< length; j++) {
+            for (int j = i * length / num; j < ((i + 1) * length / num) && j< length; j++) {
                 dividedArray[i].add(tab[j]);
             }
         }
